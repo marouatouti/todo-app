@@ -1,6 +1,6 @@
 # 📝 Todo List
 
-Un site web simple de gestion de tâches, réalisé pour pratiquer et améliorer mes compétences en **JavaScript**.
+Un site web simple de gestion de tâches.
 
 ## ✨ Fonctionnalités prévues
 
