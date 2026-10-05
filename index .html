@@ -519,6 +519,156 @@
 
     </main>
 
+    <!-- Overlay -->
+<div
+    id="create-task-overlay"
+    class="fixed inset-0 z-40 hidden bg-black/40"
+></div>
+
+
+<!-- Drawer Nouvelle tâche -->
+<aside
+    id="create-task-drawer"
+    class="fixed right-0 top-0 z-50 hidden h-full w-full max-w-md bg-white shadow-xl"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="create-task-title"
+>
+
+    <div class="flex h-full flex-col">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b border-gray-100 px-6 py-5">
+
+            <h2
+                id="create-task-title"
+                class="text-xl font-bold"
+            >
+                Nouvelle tâche
+            </h2>
+
+            <button
+                type="button"
+                aria-label="Fermer"
+                class="flex size-9 items-center justify-center rounded-lg hover:bg-gray-100"
+            >
+                <i data-lucide="x" class="size-5"></i>
+            </button>
+
+        </div>
+
+
+        <!-- Formulaire -->
+        <form class="flex flex-1 flex-col">
+
+            <div class="flex-1 space-y-5 overflow-y-auto px-6 py-6">
+
+                <!-- Titre -->
+                <div>
+                    <label
+                        for="task-title"
+                        class="mb-2 block text-sm font-medium"
+                    >
+                        Titre
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <input
+                        id="task-title"
+                        name="title"
+                        type="text"
+                        required
+                        placeholder="Ex : Faire les courses"
+                        class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none focus:border-primary"
+                    >
+                </div>
+
+
+                <!-- Description -->
+                <div>
+                    <label
+                        for="task-description"
+                        class="mb-2 block text-sm font-medium"
+                    >
+                        Description
+                    </label>
+
+                    <textarea
+                        id="task-description"
+                        name="description"
+                        rows="5"
+                        placeholder="Ajouter une description..."
+                        class="w-full resize-none rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none focus:border-primary"
+                    ></textarea>
+                </div>
+
+
+                <!-- Date limite -->
+                <div>
+                    <label
+                        for="task-date"
+                        class="mb-2 block text-sm font-medium"
+                    >
+                        Date limite
+                    </label>
+
+                    <input
+                        id="task-date"
+                        name="date"
+                        type="date"
+                        class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm outline-none focus:border-primary"
+                    >
+                </div>
+
+
+                <!-- Priorité -->
+                <div>
+                    <label
+                        for="task-priority"
+                        class="mb-2 block text-sm font-medium"
+                    >
+                        Priorité
+                    </label>
+
+                    <select
+                        id="task-priority"
+                        name="priority"
+                        class="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-primary"
+                    >
+                        <option value="">Choisir une priorité</option>
+                        <option value="low">Basse</option>
+                        <option value="medium">Moyenne</option>
+                        <option value="high">Haute</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <!-- Footer -->
+            <div class="flex gap-3 border-t border-gray-100 px-6 py-5">
+
+                <button
+                    type="button"
+                    class="flex-1 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium hover:bg-gray-50"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    class="flex-1 rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white"
+                >
+                    Créer la tâche
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</aside>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="./js/script.js"></script>
