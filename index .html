@@ -14,6 +14,7 @@
 
     <main class="flex min-h-screen items-center justify-center p-3 sm:p-6">
 
+        <!-- Cadre principal -->
         <div class="w-full max-w-6xl rounded-2xl bg-white p-4 shadow-sm sm:p-6 lg:p-8">
 
             <!-- Header -->
@@ -44,13 +45,14 @@
                     class="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white sm:w-auto"
                 >
                     <i data-lucide="plus" class="size-5"></i>
+
                     Nouvelle tâche
                 </button>
 
             </header>
 
 
-            <!-- Filtres + recherche -->
+            <!-- Filtres et recherche -->
             <section
                 class="mt-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
             >
@@ -112,278 +114,406 @@
             </section>
 
 
-            <!-- Liste des tâches -->
-            <section class="mt-5 overflow-hidden rounded-xl border border-gray-100">
+            <!-- Contenu de la Todo -->
+            <section class="mt-5">
 
-                <!-- En-tête tableau -->
-                <div
-                    class="hidden grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 bg-gray-50 px-6 py-4 text-xs font-semibold uppercase text-gray-500 md:grid"
-                >
-                    <span>Tâche</span>
-                    <span>Date limite</span>
-                    <span>Priorité</span>
-                    <span>Statut</span>
-                    <span>Actions</span>
+                <!-- État avec tâches -->
+                <div id="tasks-list">
+
+                    <!-- Tableau -->
+                    <div class="rounded-xl border border-gray-100">
+
+                        <!-- En-tête du tableau -->
+                        <div
+                            class="hidden grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 bg-gray-50 px-6 py-4 text-xs font-semibold uppercase text-gray-500 md:grid"
+                        >
+                            <span>Tâche</span>
+                            <span>Date limite</span>
+                            <span>Priorité</span>
+                            <span>Statut</span>
+                            <span>Actions</span>
+                        </div>
+
+
+                        <!-- Tâche 1 -->
+                        <article
+                            class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
+                        >
+
+                            <!-- Informations -->
+                            <div class="flex items-start gap-3 sm:gap-4">
+
+                                <input
+                                    type="checkbox"
+                                    aria-label="Marquer Faire les courses comme terminée"
+                                    class="mt-1 size-5 shrink-0 accent-primary"
+                                >
+
+                                <div>
+                                    <h2 class="font-semibold">
+                                        Faire les courses
+                                    </h2>
+
+                                    <p class="text-sm text-gray-500">
+                                        Lait, œufs, fruits, légumes
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <!-- Date -->
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+
+                                <i data-lucide="calendar-days" class="size-4"></i>
+
+                                <time datetime="2026-09-22">
+                                    22 sept. 2026
+                                </time>
+
+                            </div>
+
+
+                            <!-- Priorité -->
+                            <div>
+                                <span
+                                    class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-600"
+                                >
+                                    Moyenne
+                                </span>
+                            </div>
+
+
+                            <!-- Statut -->
+                            <div>
+                                <span
+                                    class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+                                >
+                                    À faire
+                                </span>
+                            </div>
+
+
+                            <!-- Actions -->
+                            <div
+                                class="absolute right-4 top-4 md:relative md:right-auto md:top-auto"
+                            >
+
+                                <button
+                                    type="button"
+                                    aria-label="Actions pour Faire les courses"
+                                    aria-haspopup="menu"
+                                    class="flex size-8 items-center justify-center rounded-lg hover:bg-gray-100"
+                                >
+                                    <i data-lucide="ellipsis" class="size-5"></i>
+                                </button>
+
+
+                                <!-- Menu d'actions -->
+                                <div
+                                    class="hidden absolute right-0 top-9 z-20 w-56 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
+                                    role="menu"
+                                >
+
+                                    <button
+                                        type="button"
+                                        role="menuitem"
+                                        class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-gray-50"
+                                    >
+                                        <i data-lucide="eye" class="size-4"></i>
+
+                                        Voir les détails
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        role="menuitem"
+                                        class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-gray-50"
+                                    >
+                                        <i data-lucide="pencil" class="size-4"></i>
+
+                                        Modifier
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        role="menuitem"
+                                        class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm hover:bg-gray-50"
+                                    >
+                                        <i data-lucide="check" class="size-4"></i>
+
+                                        Marquer comme terminée
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        role="menuitem"
+                                        class="flex w-full items-center gap-3 border-t border-gray-100 px-4 py-3 text-left text-sm text-danger hover:bg-red-50"
+                                    >
+                                        <i data-lucide="trash-2" class="size-4"></i>
+
+                                        Supprimer
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- Tâche 2 -->
+                        <article
+                            class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
+                        >
+
+                            <div class="flex items-start gap-3 sm:gap-4">
+
+                                <input
+                                    type="checkbox"
+                                    checked
+                                    aria-label="Marquer Réviser JavaScript comme terminée"
+                                    class="mt-1 size-5 shrink-0 accent-primary"
+                                >
+
+                                <div>
+                                    <h2 class="font-semibold">
+                                        Réviser JavaScript
+                                    </h2>
+
+                                    <p class="text-sm text-gray-500">
+                                        Faire 30 minutes d'exercices
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+
+                                <i data-lucide="calendar-days" class="size-4"></i>
+
+                                <time datetime="2026-09-20">
+                                    20 sept. 2026
+                                </time>
+
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-flex items-center rounded-md bg-red-50 px-3 py-1 text-sm text-danger"
+                                >
+                                    Haute
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-block rounded-md bg-green-50 px-3 py-1 text-sm text-success"
+                                >
+                                    Terminée
+                                </span>
+                            </div>
+
+
+                            <button
+                                type="button"
+                                aria-label="Actions pour Réviser JavaScript"
+                                class="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg hover:bg-gray-100 md:static"
+                            >
+                                <i data-lucide="ellipsis" class="size-5"></i>
+                            </button>
+
+                        </article>
+
+
+                        <!-- Tâche 3 -->
+                        <article
+                            class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
+                        >
+
+                            <div class="flex items-start gap-3 sm:gap-4">
+
+                                <input
+                                    type="checkbox"
+                                    aria-label="Marquer Préparer mon entretien comme terminée"
+                                    class="mt-1 size-5 shrink-0 accent-primary"
+                                >
+
+                                <div>
+                                    <h2 class="font-semibold">
+                                        Préparer mon entretien
+                                    </h2>
+
+                                    <p class="text-sm text-gray-500">
+                                        Relire les questions fréquentes
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+
+                                <i data-lucide="calendar-days" class="size-4"></i>
+
+                                <time datetime="2026-09-25">
+                                    25 sept. 2026
+                                </time>
+
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-flex items-center rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-600"
+                                >
+                                    Moyenne
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+                                >
+                                    À faire
+                                </span>
+                            </div>
+
+
+                            <button
+                                type="button"
+                                aria-label="Actions pour Préparer mon entretien"
+                                class="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg hover:bg-gray-100 md:static"
+                            >
+                                <i data-lucide="ellipsis" class="size-5"></i>
+                            </button>
+
+                        </article>
+
+
+                        <!-- Tâche 4 -->
+                        <article
+                            class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
+                        >
+
+                            <div class="flex items-start gap-3 sm:gap-4">
+
+                                <input
+                                    type="checkbox"
+                                    aria-label="Marquer Lire un livre comme terminée"
+                                    class="mt-1 size-5 shrink-0 accent-primary"
+                                >
+
+                                <div>
+                                    <h2 class="font-semibold">
+                                        Lire un livre
+                                    </h2>
+
+                                    <p class="text-sm text-gray-500">
+                                        Terminer le chapitre 3
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="flex items-center gap-2 text-sm text-gray-500">
+
+                                <i data-lucide="calendar-days" class="size-4"></i>
+
+                                <time datetime="2026-09-30">
+                                    30 sept. 2026
+                                </time>
+
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+                                >
+                                    Basse
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <span
+                                    class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
+                                >
+                                    À faire
+                                </span>
+                            </div>
+
+
+                            <button
+                                type="button"
+                                aria-label="Actions pour Lire un livre"
+                                class="absolute right-4 top-4 flex size-8 items-center justify-center rounded-lg hover:bg-gray-100 md:static"
+                            >
+                                <i data-lucide="ellipsis" class="size-5"></i>
+                            </button>
+
+                        </article>
+
+                    </div>
+
+
+                    <!-- Résumé -->
+                    <footer
+                        class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 sm:text-sm"
+                    >
+                        <span>4 tâches au total</span>
+
+                        <span aria-hidden="true">•</span>
+
+                        <span>3 à faire</span>
+
+                        <span aria-hidden="true">•</span>
+
+                        <span>1 terminée</span>
+                    </footer>
+
                 </div>
 
 
-                <!-- Tâche 1 -->
-                <article
-                    class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
+                <!-- État vide -->
+                <div
+                    id="empty-state"
+                    class="hidden min-h-96 flex-col items-center justify-center px-4 py-12 text-center"
                 >
 
-                    <div class="flex items-start gap-3 sm:gap-4">
-
-                        <input
-                            type="checkbox"
-                            aria-label="Marquer Faire les courses comme terminée"
-                            class="mt-1 size-5 shrink-0 accent-primary"
-                        >
-
-                        <div>
-                            <h2 class="font-semibold">
-                                Faire les courses
-                            </h2>
-
-                            <p class="text-sm text-gray-500">
-                                Lait, œufs, fruits, légumes
-                            </p>
-                        </div>
-
+                    <div
+                        class="mb-5 flex size-16 items-center justify-center rounded-2xl bg-background text-primary"
+                    >
+                        <i data-lucide="list-checks" class="size-8"></i>
                     </div>
 
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i data-lucide="calendar-days" class="size-4"></i>
+                    <h2 class="text-xl font-bold sm:text-2xl">
+                        Aucune tâche pour le moment
+                    </h2>
 
-                        <time datetime="2026-09-22">
-                            22 sept. 2026
-                        </time>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-600"
-                        >
-                            <i data-lucide="circle-chevron-down" class="size-3"></i>
-                            Moyenne
-                        </span>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
-                        >
-                            À faire
-                        </span>
-                    </div>
+                    <p class="mt-2 max-w-md text-sm text-gray-500 sm:text-base">
+                        Commence par créer ta première tâche et organise facilement
+                        ce que tu as à faire.
+                    </p>
 
                     <button
                         type="button"
-                        aria-label="Actions pour Faire les courses"
-                        class="absolute right-4 top-4 md:static"
+                        class="mt-6 flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-medium text-white"
                     >
-                        <i data-lucide="ellipsis" class="size-5"></i>
+                        <i data-lucide="plus" class="size-5"></i>
+
+                        Créer ma première tâche
                     </button>
 
-                </article>
-
-
-                <!-- Tâche 2 -->
-                <article
-                    class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
-                >
-
-                    <div class="flex items-start gap-3 sm:gap-4">
-
-                        <input
-                            type="checkbox"
-                            checked
-                            aria-label="Marquer Réviser JavaScript comme terminée"
-                            class="mt-1 size-5 shrink-0 accent-primary"
-                        >
-
-                        <div>
-                            <h2 class="font-semibold">
-                                Réviser JavaScript
-                            </h2>
-
-                            <p class="text-sm text-gray-500">
-                                Faire 30 minutes d'exercices
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i data-lucide="calendar-days" class="size-4"></i>
-
-                        <time datetime="2026-09-20">
-                            20 sept. 2026
-                        </time>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-flex items-center gap-1 rounded-md bg-red-50 px-3 py-1 text-sm text-danger"
-                        >
-                            <i data-lucide="circle-chevron-down" class="size-3"></i>
-                            Haute
-                        </span>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-block rounded-md bg-green-50 px-3 py-1 text-sm text-success"
-                        >
-                            Terminée
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        aria-label="Actions pour Réviser JavaScript"
-                        class="absolute right-4 top-4 md:static"
-                    >
-                        <i data-lucide="ellipsis" class="size-5"></i>
-                    </button>
-
-                </article>
-
-
-                <!-- Tâche 3 -->
-                <article
-                    class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
-                >
-
-                    <div class="flex items-start gap-3 sm:gap-4">
-
-                        <input
-                            type="checkbox"
-                            aria-label="Marquer Préparer mon entretien comme terminée"
-                            class="mt-1 size-5 shrink-0 accent-primary"
-                        >
-
-                        <div>
-                            <h2 class="font-semibold">
-                                Préparer mon entretien
-                            </h2>
-
-                            <p class="text-sm text-gray-500">
-                                Relire les questions fréquentes
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i data-lucide="calendar-days" class="size-4"></i>
-
-                        <time datetime="2026-09-25">
-                            25 sept. 2026
-                        </time>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-flex items-center gap-1 rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-600"
-                        >
-                            <i data-lucide="circle-chevron-down" class="size-3"></i>
-                            Moyenne
-                        </span>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
-                        >
-                            À faire
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        aria-label="Actions pour Préparer mon entretien"
-                        class="absolute right-4 top-4 md:static"
-                    >
-                        <i data-lucide="ellipsis" class="size-5"></i>
-                    </button>
-
-                </article>
-
-
-                <!-- Tâche 4 -->
-                <article
-                    class="relative flex flex-col gap-4 border-t border-gray-100 p-4 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_auto] md:items-center md:gap-4 md:px-6 md:py-4"
-                >
-
-                    <div class="flex items-start gap-3 sm:gap-4">
-
-                        <input
-                            type="checkbox"
-                            aria-label="Marquer Lire un livre comme terminée"
-                            class="mt-1 size-5 shrink-0 accent-primary"
-                        >
-
-                        <div>
-                            <h2 class="font-semibold">
-                                Lire un livre
-                            </h2>
-
-                            <p class="text-sm text-gray-500">
-                                Terminer le chapitre 3
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm text-gray-500">
-                        <i data-lucide="calendar-days" class="size-4"></i>
-
-                        <time datetime="2026-09-30">
-                            30 sept. 2026
-                        </time>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-flex items-center gap-1 rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
-                        >
-                            <i data-lucide="circle" class="size-3 fill-current"></i>
-                            Basse
-                        </span>
-                    </div>
-
-                    <div>
-                        <span
-                            class="inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500"
-                        >
-                            À faire
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        aria-label="Actions pour Lire un livre"
-                        class="absolute right-4 top-4 md:static"
-                    >
-                        <i data-lucide="ellipsis" class="size-5"></i>
-                    </button>
-
-                </article>
+                </div>
 
             </section>
-
-
-            <!-- Résumé -->
-            <footer
-                class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500 sm:text-sm"
-            >
-                <span>4 tâches au total</span>
-                <span aria-hidden="true">•</span>
-                <span>3 à faire</span>
-                <span aria-hidden="true">•</span>
-                <span>1 terminée</span>
-            </footer>
 
         </div>
 
