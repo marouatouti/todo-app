@@ -20,3 +20,15 @@ body{
     max-height: calc(100% - 2rem);
     overflow-y: auto;
 }
+
+@media (max-width: 47.999rem) {
+    #tasks-list article {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) max-content max-content;
+        column-gap: 0.5rem;
+    }
+
+    #tasks-list article > :first-child {
+        grid-column: 1 / -1;
+    }
+}
