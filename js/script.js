@@ -6,6 +6,35 @@ const cancelButton = document.getElementById("cancel-create-task");
 
 const overlay = document.getElementById("create-task-overlay");
 const drawer = document.getElementById("create-task-drawer");
+const form = drawer.querySelector("form");
+const tasksList = document.getElementById("tasks-list");
+const taskTable = tasksList.querySelector("div");
+const filterButtons = document.querySelectorAll('nav[aria-label="Filtrer les tâches"] button');
+const summary = tasksList.querySelectorAll("footer span:not([aria-hidden])");
+const storageKey = "todo-app-tasks-v2";
+const template = taskTable.querySelector("article").cloneNode(true);
+const priorities = { Basse: "low", Moyenne: "medium", Haute: "high" };
+const exampleTasks = Array.from(taskTable.querySelectorAll("article"), (article) => ({
+    title: article.querySelector("h2").textContent.trim(),
+    description: article.querySelector("p").textContent.trim(),
+    date: article.querySelector("time").dateTime,
+    priority: priorities[article.children[2].textContent.trim()] || "",
+    completed: article.querySelector('input[type="checkbox"]').checked
+}));
+let savedTasks = exampleTasks;
+
+try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored !== null) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) savedTasks = parsed;
+    } else {
+        const previous = JSON.parse(localStorage.getItem("todo-app-tasks") || "[]");
+        if (Array.isArray(previous)) savedTasks = [...exampleTasks, ...previous];
+    }
+} catch (error) {
+    console.warn("Impossible de charger les tâches enregistrées.", error);
+}
 
 function openDrawer() {
     overlay.classList.remove("hidden");
@@ -24,4 +53,98 @@ closeButton.addEventListener("click", closeDrawer);
 cancelButton.addEventListener("click", closeDrawer);
 
 overlay.addEventListener("click", closeDrawer);
+
+function addTaskToList({ title, description, date, priority, completed }, index) {
+    const task = template.cloneNode(true);
+    const checkbox = task.querySelector('input[type="checkbox"]');
+    const priorityLabels = { low: "Basse", medium: "Moyenne", high: "Haute" };
+    const priorityClasses = {
+        low: "inline-flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500",
+        medium: "inline-flex items-center rounded-md bg-blue-50 px-3 py-1 text-sm text-blue-600",
+        high: "inline-flex items-center rounded-md bg-red-50 px-3 py-1 text-sm text-danger"
+    };
+
+    task.querySelector("h2").textContent = title;
+    task.querySelector("p").textContent = description;
+    checkbox.checked = Boolean(completed);
+    checkbox.setAttribute("aria-label", completed ? `Marquer ${title} comme à faire` : `Marquer ${title} comme terminée`);
+    task.querySelector('button[aria-haspopup="menu"]').setAttribute("aria-label", `Actions pour ${title}`);
+
+    const time = task.querySelector("time");
+    time.dateTime = date;
+    time.textContent = date
+        ? new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`))
+        : "Sans date";
+
+    const priorityBadge = task.children[2].querySelector("span");
+    priorityBadge.textContent = priorityLabels[priority] || "Non définie";
+    priorityBadge.className = priorityClasses[priority] || priorityClasses.low;
+
+    const status = task.children[3].querySelector("span");
+    status.textContent = completed ? "Terminée" : "À faire";
+    status.className = completed
+        ? "inline-block rounded-md bg-green-50 px-3 py-1 text-sm text-success"
+        : "inline-block rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-500";
+
+    checkbox.addEventListener("change", () => {
+        const updatedTasks = savedTasks.map((item, i) => i === index ? { ...item, completed: checkbox.checked } : item);
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(updatedTasks));
+            savedTasks = updatedTasks;
+            renderTasks();
+        } catch (error) {
+            checkbox.checked = !checkbox.checked;
+            alert("Le statut n'a pas pu être enregistré dans le navigateur.");
+        }
+    });
+
+    taskTable.appendChild(task);
+}
+
+function renderTasks() {
+    taskTable.querySelectorAll("article").forEach((task) => task.remove());
+    savedTasks.forEach(addTaskToList);
+    const total = savedTasks.length;
+    const completed = savedTasks.filter((task) => task.completed).length;
+    const remaining = total - completed;
+    filterButtons[0].textContent = `Toutes (${total})`;
+    filterButtons[1].textContent = `À faire (${remaining})`;
+    filterButtons[2].textContent = `Terminées (${completed})`;
+    summary[0].textContent = `${total} tâches au total`;
+    summary[1].textContent = `${remaining} à faire`;
+    summary[2].textContent = `${completed} terminée${completed > 1 ? "s" : ""}`;
+}
+
+renderTasks();
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const title = form.elements.title.value.trim();
+    if (!title) {
+        form.elements.title.focus();
+        return;
+    }
+
+    const task = {
+        title,
+        description: form.elements.description.value.trim(),
+        date: form.elements.date.value,
+        priority: form.elements.priority.value,
+        completed: false
+    };
+
+    try {
+        localStorage.setItem(storageKey, JSON.stringify([...savedTasks, task]));
+        savedTasks.push(task);
+    } catch (error) {
+        alert("La tâche n'a pas pu être enregistrée dans le navigateur.");
+        return;
+    }
+
+    renderTasks();
+
+    form.reset();
+    closeDrawer();
+});
 
