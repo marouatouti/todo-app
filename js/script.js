@@ -12,6 +12,7 @@ const submitButton = form.querySelector('button[type="submit"]');
 let editingIndex = null;
 const tasksList = document.getElementById("tasks-list");
 const emptyState = document.getElementById("empty-state");
+const detailsDialog = document.getElementById("task-details");
 const taskTable = tasksList.querySelector("div");
 const filterButtons = document.querySelectorAll('nav[aria-label="Filtrer les tâches"] button');
 const searchInput = document.querySelector('input[type="search"]');
@@ -111,6 +112,18 @@ function addTaskToList({ title, description, date, priority, completed }, index)
         taskTable.querySelectorAll('[role="menu"]').forEach((other) => other.classList.add("hidden"));
         menu.classList.toggle("hidden", !wasHidden);
     });
+    const menuItems = menu.querySelectorAll('[role="menuitem"]');
+    menuItems[0].addEventListener("click", () => {
+        document.getElementById("details-title").textContent = title;
+        document.getElementById("details-description").textContent = description || "Aucune description";
+        document.getElementById("details-date").textContent = time.textContent;
+        document.getElementById("details-priority").textContent = priorityLabels[priority] || "Non définie";
+        document.getElementById("details-status").textContent = completed ? "Terminée" : "À faire";
+        menu.classList.add("hidden");
+        detailsDialog.showModal();
+    });
+    menuItems[2].lastChild.textContent = completed ? " Marquer comme à faire" : " Marquer comme terminée";
+    menuItems[2].addEventListener("click", () => checkbox.click());
     menu.querySelectorAll('[role="menuitem"]')[1].addEventListener("click", () => {
         menu.classList.add("hidden");
         editTask(index);
