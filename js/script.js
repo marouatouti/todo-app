@@ -12,6 +12,8 @@ const submitButton = form.querySelector('button[type="submit"]');
 let editingIndex = null;
 const tasksList = document.getElementById("tasks-list");
 const emptyState = document.getElementById("empty-state");
+const deleteAllButton = document.getElementById("delete-all-tasks");
+const deleteAllDialog = document.getElementById("delete-all-dialog");
 const detailsDialog = document.getElementById("task-details");
 const taskTable = tasksList.querySelector("div");
 const filterButtons = document.querySelectorAll('nav[aria-label="Filtrer les tâches"] button');
@@ -215,6 +217,23 @@ filterButtons.forEach((button, index) => {
     button.setAttribute("aria-pressed", String(index === 0));
 });
 searchInput.addEventListener("input", renderTasks);
+
+deleteAllButton.addEventListener("click", () => deleteAllDialog.showModal());
+document.getElementById("cancel-delete-all").addEventListener("click", () => deleteAllDialog.close());
+document.getElementById("confirm-delete-all").addEventListener("click", () => {
+
+    try {
+        localStorage.setItem(storageKey, JSON.stringify([]));
+        savedTasks = [];
+    } catch (error) {
+        alert("Les tâches n'ont pas pu être supprimées du navigateur.");
+        return;
+    }
+
+    deleteAllDialog.close();
+    searchInput.value = "";
+    filterButtons[0].click();
+});
 
 renderTasks();
 

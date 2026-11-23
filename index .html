@@ -477,6 +477,14 @@
                         <span aria-hidden="true">•</span>
 
                         <span>1 terminée</span>
+
+                        <button
+                            id="delete-all-tasks"
+                            type="button"
+                            class="rounded-lg px-4 py-3 text-sm text-danger hover:bg-red-50"
+                        >
+                            Supprimer toutes les tâches
+                        </button>
                     </footer>
 
                 </div>
@@ -672,6 +680,15 @@
     </div>
 
 </aside>
+
+    <dialog id="delete-all-dialog" aria-labelledby="delete-all-title" aria-describedby="delete-all-description" class="rounded-2xl bg-white shadow-xl">
+        <h2 id="delete-all-title" class="text-xl font-bold">Supprimer toutes les tâches ?</h2>
+        <p id="delete-all-description" class="mt-2 text-sm text-gray-500">Toutes les tâches seront supprimées, même celles masquées par un filtre ou une recherche. Cette action est irréversible.</p>
+        <div class="mt-6 flex gap-3">
+            <button id="cancel-delete-all" type="button" autofocus class="flex-1 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium hover:bg-gray-50">Annuler</button>
+            <button id="confirm-delete-all" type="button" class="flex-1 rounded-lg px-4 py-3 text-sm font-medium text-white">Supprimer</button>
+        </div>
+    </dialog>
 
     <dialog id="task-details" aria-labelledby="task-details-title" class="m-auto w-full max-w-md rounded-2xl bg-white p-6 shadow-xl backdrop:bg-black/40">
         <h2 id="task-details-title" class="text-xl font-bold">Détails de la tâche</h2>

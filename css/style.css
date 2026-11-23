@@ -13,12 +13,17 @@ body{
      @apply bg-background text-text;
 }
 
-#task-details {
+#task-details,
+#delete-all-dialog {
     margin: auto;
     padding: 1.5rem;
     width: min(28rem, calc(100% - 2rem));
     max-height: calc(100% - 2rem);
     overflow-y: auto;
+}
+
+#confirm-delete-all {
+    background-color: var(--color-danger);
 }
 
 @media (max-width: 47.999rem) {
