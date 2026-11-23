@@ -33,7 +33,3 @@ Pour régénérer le CSS après avoir modifié les classes ou `css/style.css`, i
 ```bash
 npx @tailwindcss/cli -i ./css/style.css -o ./css/output.css
 ```
-
-## 🚧 Statut
-
-Le projet est fonctionnel et reste en cours d'amélioration.
