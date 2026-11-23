@@ -14,6 +14,13 @@ const tasksList = document.getElementById("tasks-list");
 const emptyState = document.getElementById("empty-state");
 const taskTable = tasksList.querySelector("div");
 const filterButtons = document.querySelectorAll('nav[aria-label="Filtrer les tâches"] button');
+const searchInput = document.querySelector('input[type="search"]');
+const noResults = document.createElement("p");
+noResults.className = "hidden px-4 py-12 text-center text-sm text-gray-500";
+noResults.setAttribute("role", "status");
+noResults.textContent = "Aucune tâche ne correspond à ta recherche ou à ce filtre.";
+taskTable.after(noResults);
+let activeFilter = "all";
 const summary = tasksList.querySelectorAll("footer span:not([aria-hidden])");
 const storageKey = "todo-app-tasks-v2";
 const template = taskTable.querySelector("article").cloneNode(true);
@@ -152,8 +159,21 @@ function addTaskToList({ title, description, date, priority, completed }, index)
 
 function renderTasks() {
     taskTable.querySelectorAll("article").forEach((task) => task.remove());
-    savedTasks.forEach(addTaskToList);
+    const search = searchInput.value.trim().toLocaleLowerCase("fr");
+    let visibleCount = 0;
+    savedTasks.forEach((task, index) => {
+        const matchesFilter = activeFilter === "all"
+            || (activeFilter === "todo" && !task.completed)
+            || (activeFilter === "done" && task.completed);
+        const matchesSearch = `${task.title} ${task.description}`.toLocaleLowerCase("fr").includes(search);
+        if (matchesFilter && matchesSearch) {
+            addTaskToList(task, index);
+            visibleCount++;
+        }
+    });
     const total = savedTasks.length;
+    noResults.classList.toggle("hidden", total === 0 || visibleCount > 0);
+    taskTable.classList.toggle("hidden", visibleCount === 0);
     tasksList.classList.toggle("hidden", total === 0);
     emptyState.classList.toggle("hidden", total !== 0);
     emptyState.classList.toggle("flex", total === 0);
@@ -166,6 +186,22 @@ function renderTasks() {
     summary[1].textContent = `${remaining} à faire`;
     summary[2].textContent = `${completed} terminée${completed > 1 ? "s" : ""}`;
 }
+
+filterButtons.forEach((button, index) => {
+    button.addEventListener("click", () => {
+        activeFilter = ["all", "todo", "done"][index];
+        filterButtons.forEach((filterButton, filterIndex) => {
+            const active = filterIndex === index;
+            filterButton.classList.toggle("bg-primary", active);
+            filterButton.classList.toggle("text-white", active);
+            filterButton.classList.toggle("bg-gray-50", !active);
+            filterButton.setAttribute("aria-pressed", String(active));
+        });
+        renderTasks();
+    });
+    button.setAttribute("aria-pressed", String(index === 0));
+});
+searchInput.addEventListener("input", renderTasks);
 
 renderTasks();
 
