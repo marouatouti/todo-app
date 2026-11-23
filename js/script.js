@@ -7,6 +7,9 @@ const cancelButton = document.getElementById("cancel-create-task");
 const overlay = document.getElementById("create-task-overlay");
 const drawer = document.getElementById("create-task-drawer");
 const form = drawer.querySelector("form");
+const drawerTitle = document.getElementById("create-task-title");
+const submitButton = form.querySelector('button[type="submit"]');
+let editingIndex = null;
 const tasksList = document.getElementById("tasks-list");
 const emptyState = document.getElementById("empty-state");
 const taskTable = tasksList.querySelector("div");
@@ -38,8 +41,25 @@ try {
 }
 
 function openDrawer() {
+    editingIndex = null;
+    form.reset();
+    drawerTitle.textContent = "Nouvelle tâche";
+    submitButton.textContent = "Créer la tâche";
     overlay.classList.remove("hidden");
     drawer.classList.remove("hidden");
+}
+
+function editTask(index) {
+    openDrawer();
+    editingIndex = index;
+    const task = savedTasks[index];
+    form.elements.title.value = task.title;
+    form.elements.description.value = task.description;
+    form.elements.date.value = task.date;
+    form.elements.priority.value = task.priority;
+    drawerTitle.textContent = "Modifier la tâche";
+    submitButton.textContent = "Enregistrer";
+    form.elements.title.focus();
 }
 
 function closeDrawer() {
@@ -83,6 +103,10 @@ function addTaskToList({ title, description, date, priority, completed }, index)
         const wasHidden = menu.classList.contains("hidden");
         taskTable.querySelectorAll('[role="menu"]').forEach((other) => other.classList.add("hidden"));
         menu.classList.toggle("hidden", !wasHidden);
+    });
+    menu.querySelectorAll('[role="menuitem"]')[1].addEventListener("click", () => {
+        menu.classList.add("hidden");
+        editTask(index);
     });
     menu.querySelectorAll('[role="menuitem"]')[3].addEventListener("click", () => {
         const updatedTasks = savedTasks.filter((item, i) => i !== index);
@@ -159,12 +183,15 @@ form.addEventListener("submit", (event) => {
         description: form.elements.description.value.trim(),
         date: form.elements.date.value,
         priority: form.elements.priority.value,
-        completed: false
+        completed: editingIndex === null ? false : Boolean(savedTasks[editingIndex].completed)
     };
 
     try {
-        localStorage.setItem(storageKey, JSON.stringify([...savedTasks, task]));
-        savedTasks.push(task);
+        const updatedTasks = editingIndex === null
+            ? [...savedTasks, task]
+            : savedTasks.map((item, index) => index === editingIndex ? task : item);
+        localStorage.setItem(storageKey, JSON.stringify(updatedTasks));
+        savedTasks = updatedTasks;
     } catch (error) {
         alert("La tâche n'a pas pu être enregistrée dans le navigateur.");
         return;
