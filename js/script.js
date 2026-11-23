@@ -8,6 +8,7 @@ const overlay = document.getElementById("create-task-overlay");
 const drawer = document.getElementById("create-task-drawer");
 const form = drawer.querySelector("form");
 const tasksList = document.getElementById("tasks-list");
+const emptyState = document.getElementById("empty-state");
 const taskTable = tasksList.querySelector("div");
 const filterButtons = document.querySelectorAll('nav[aria-label="Filtrer les tâches"] button');
 const summary = tasksList.querySelectorAll("footer span:not([aria-hidden])");
@@ -53,6 +54,13 @@ closeButton.addEventListener("click", closeDrawer);
 cancelButton.addEventListener("click", closeDrawer);
 
 overlay.addEventListener("click", closeDrawer);
+emptyState.querySelector("button").addEventListener("click", openDrawer);
+
+document.addEventListener("click", (event) => {
+    if (!event.target.closest('[aria-haspopup="menu"]') && !event.target.closest('[role="menu"]')) {
+        taskTable.querySelectorAll('[role="menu"]').forEach((menu) => menu.classList.add("hidden"));
+    }
+});
 
 function addTaskToList({ title, description, date, priority, completed }, index) {
     const task = template.cloneNode(true);
@@ -69,6 +77,23 @@ function addTaskToList({ title, description, date, priority, completed }, index)
     checkbox.checked = Boolean(completed);
     checkbox.setAttribute("aria-label", completed ? `Marquer ${title} comme à faire` : `Marquer ${title} comme terminée`);
     task.querySelector('button[aria-haspopup="menu"]').setAttribute("aria-label", `Actions pour ${title}`);
+    const menuButton = task.querySelector('button[aria-haspopup="menu"]');
+    const menu = task.querySelector('[role="menu"]');
+    menuButton.addEventListener("click", () => {
+        const wasHidden = menu.classList.contains("hidden");
+        taskTable.querySelectorAll('[role="menu"]').forEach((other) => other.classList.add("hidden"));
+        menu.classList.toggle("hidden", !wasHidden);
+    });
+    menu.querySelectorAll('[role="menuitem"]')[3].addEventListener("click", () => {
+        const updatedTasks = savedTasks.filter((item, i) => i !== index);
+        try {
+            localStorage.setItem(storageKey, JSON.stringify(updatedTasks));
+            savedTasks = updatedTasks;
+            renderTasks();
+        } catch (error) {
+            alert("La tâche n'a pas pu être supprimée du navigateur.");
+        }
+    });
 
     const time = task.querySelector("time");
     time.dateTime = date;
@@ -105,6 +130,9 @@ function renderTasks() {
     taskTable.querySelectorAll("article").forEach((task) => task.remove());
     savedTasks.forEach(addTaskToList);
     const total = savedTasks.length;
+    tasksList.classList.toggle("hidden", total === 0);
+    emptyState.classList.toggle("hidden", total !== 0);
+    emptyState.classList.toggle("flex", total === 0);
     const completed = savedTasks.filter((task) => task.completed).length;
     const remaining = total - completed;
     filterButtons[0].textContent = `Toutes (${total})`;
